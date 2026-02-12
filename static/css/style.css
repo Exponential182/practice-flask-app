@@ -1,0 +1,31 @@
+html, body{
+    font-family: "Righteous", sans-serif;
+    padding: 0%;
+    margin: 0%;
+}
+
+body{
+    font-size: 1.2rem;
+}
+
+h1, h2, h3, h4, h5, h6, p{
+    padding: 0.8rem;
+    margin: 0%;
+}
+
+/* colours: #031323, #f4f4f4, #d60000, #e61c19, #ff0000 */
+
+/* Navbar and Title Section */
+.website-header{
+    font-size: 4rem;
+    padding: 1rem;
+    text-align: center;
+    background-color: #031323;
+    color: #f4f4f4;
+}
+
+.navbar {
+    background-color: #e61c19;
+    height: 4rem;
+}
+
