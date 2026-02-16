@@ -24,8 +24,24 @@ h1, h2, h3, h4, h5, h6, p{
     color: #f4f4f4;
 }
 
-.navbar {
+.navbar{
     background-color: #e61c19;
     height: 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 8fr 1fr;
 }
 
+.navbar-element{
+    background-color: #d60000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-link{
+    text-align: center;
+    text-decoration: none;
+    color: #f4f4f4;
+    font-size: 1.6rem;
+    font-weight: 650;
+}
