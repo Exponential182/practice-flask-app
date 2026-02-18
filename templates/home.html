@@ -1,4 +1,12 @@
 {% extends "layout.html" %}
 {%block content%}
 <h1>hello</h1>
+{%for item in data%}
+Name: {{item.name}} <br>
+Year: {{item.year}} <br>
+Position: {{item.pos}} <br>
+Era: {{item.era}} <br>
+Engine: {{item.engine.name}} <br>
+<br><br>
+{%endfor%}
 {%endblock%}
