@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import (DeclarativeBase, Mapped, mapped_column,
@@ -27,7 +27,7 @@ class Teams(Base):
     engine: Mapped[Engines] = relationship(back_populates="team_years")
     year: Mapped[int] = mapped_column(Integer)
     pos: Mapped[int] = mapped_column(Integer)
-    era: Mapped[String] = mapped_column(String)
+    era: Mapped[str] = mapped_column(String)
 
 
 db = SQLAlchemy(model_class=Base)
@@ -39,21 +39,15 @@ db.init_app(app)
 @app.route("/")
 def home():
     results = db.session.execute(select(Teams)).scalars()
-    print(results)
     return render_template("home.html", data=results)
 
 
-@app.route("/year/<int:year>")
-def year(year):
-    pass
-    # sql = f"""
-    #         SELECT Team_Performance.name, Engine_Maker.name, year, pos, era
-    #         FROM Team_Performance
-    #         JOIN Engine_Maker on Team_Performance.engine = Engine_Maker.id
-    #         WHERE year = {year}
-    #     """
-    # results = query_db(sql)
-    # return render_template("year.html", data=results)
+@app.route("/years/<int:year_results>")
+def years(year_results):
+    statement = select(Teams).where(Teams.year == year_results)
+    statement = statement.order_by(Teams.pos)
+    results = db.session.execute(statement).scalars()
+    return render_template("year.html", data=results)
 
 
 if __name__ == "__main__":
