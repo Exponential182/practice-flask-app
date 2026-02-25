@@ -36,6 +36,7 @@ h1, h2, h3, h4, h5, h6, p{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .navbar-link{
@@ -44,4 +45,26 @@ h1, h2, h3, h4, h5, h6, p{
     color: #f4f4f4;
     font-size: 1.6rem;
     font-weight: 650;
+}
+
+.navbar-dropdown{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0%;
+    background: #aaa;
+    align-content: center;
+    white-space: pre-line;
+    width: 100%;
+}
+
+.navbar-dropdown a{
+    padding: 0.7rem auto;
+    text-decoration: none;
+    color: #031323;
+    text-align: center;
+}
+
+.navbar-element:hover .navbar-dropdown{
+    display: block;
 }
