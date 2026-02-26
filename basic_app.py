@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 
 # DB
 from flask_sqlalchemy import SQLAlchemy
@@ -8,10 +8,11 @@ from sqlalchemy import String, Integer, ForeignKey, select
 
 # Forms
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, validators
-from wtforms.validators import DataRequired, length
+from wtforms import StringField, IntegerField, SubmitField
+from wtforms.validators import DataRequired, Length
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "a-very-secret-secret-key"
 
 
 # Tables
@@ -39,10 +40,10 @@ class Teams(Base):
 
 # Forms
 class DataAdditionForm(FlaskForm):
-    team_name = StringField("Team Name", [validators.Length(min=1, max=50)])
-    year = IntegerField("Year", [validators.Length(min=4, max=4)])
-    placement = IntegerField("Championship Position", [validators.Length(min=1, max=2)])
-
+    team_name = StringField("Team Name", validators=[Length(min=1, max=50)])
+    year = IntegerField("Year", validators=[Length(min=4, max=4)]) # BROKEN
+    placement = IntegerField("Championship Position", validators=[Length(min=1, max=2)]) # BROKEN
+    submit = SubmitField("Submit")
 
 
 db = SQLAlchemy(model_class=Base)
@@ -68,7 +69,9 @@ def years(year_results):
 @app.route("/data-add", methods=["GET", "POST"])
 def data_addition():
     form = DataAdditionForm()
-
+    if form.validate_on_submit():
+        return redirect("/home")
+    return render_template("data_addition.html", form=form)
 
 
 if __name__ == "__main__":

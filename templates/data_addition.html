@@ -1,0 +1,11 @@
+{%extends "layout.html"%}
+{%block content%}
+<h2>boo</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.team_name.label }}: {{ form.team_name() }} <br>
+    {{ form.year.label }}: {{ form.year() }} <br>
+    {{ form.placement.label}}: {{ form.placement() }} <br>
+    {{ form.submit }}
+</form>
+{%endblock%}
