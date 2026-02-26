@@ -1,13 +1,20 @@
 from flask import Flask, render_template
 
+# DB
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import (DeclarativeBase, Mapped, mapped_column,
                             relationship)
 from sqlalchemy import String, Integer, ForeignKey, select
 
+# Forms
+from flask_wtf import FlaskForm
+from wtforms import StringField, IntegerField, validators
+from wtforms.validators import DataRequired, length
+
 app = Flask(__name__)
 
 
+# Tables
 class Base(DeclarativeBase):
     pass
 
@@ -30,6 +37,14 @@ class Teams(Base):
     era: Mapped[str] = mapped_column(String)
 
 
+# Forms
+class DataAdditionForm(FlaskForm):
+    team_name = StringField("Team Name", [validators.Length(min=1, max=50)])
+    year = IntegerField("Year", [validators.Length(min=4, max=4)])
+    placement = IntegerField("Championship Position", [validators.Length(min=1, max=2)])
+
+
+
 db = SQLAlchemy(model_class=Base)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///basic_db.db"
@@ -48,6 +63,12 @@ def years(year_results):
     statement = statement.order_by(Teams.pos)
     results = db.session.execute(statement).scalars()
     return render_template("year.html", data=results)
+
+
+@app.route("/data-add", methods=["GET", "POST"])
+def data_addition():
+    form = DataAdditionForm()
+
 
 
 if __name__ == "__main__":
