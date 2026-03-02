@@ -9,7 +9,7 @@ from sqlalchemy import String, Integer, ForeignKey, select
 # Forms
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, NumberRange
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "a-very-secret-secret-key"
@@ -40,9 +40,18 @@ class Teams(Base):
 
 # Forms
 class DataAdditionForm(FlaskForm):
-    team_name = StringField("Team Name", validators=[Length(min=1, max=50)])
-    year = IntegerField("Year", validators=[Length(min=4, max=4)]) # BROKEN
-    placement = IntegerField("Championship Position", validators=[Length(min=1, max=2)]) # BROKEN
+    team_name = StringField("Team Name", validators=[
+            Length(min=1, max=50), DataRequired()
+        ]
+    )
+    year = IntegerField("Year", validators=[
+            NumberRange(min=1945, max=2050), DataRequired()
+        ]
+    )
+    placement = IntegerField("Championship Position", validators=[
+            NumberRange(min=1, max=20), DataRequired()
+        ]
+    )
     submit = SubmitField("Submit")
 
 
@@ -70,7 +79,14 @@ def years(year_results):
 def data_addition():
     form = DataAdditionForm()
     if form.validate_on_submit():
-        return redirect("/home")
+        new_row = Teams(
+            name=form.team_name.data,
+            year=form.year.data,
+            pos=form.placement.data
+        )
+        db.session.add(new_row)
+        db.session.commit()
+        redirect("/home")
     return render_template("data_addition.html", form=form)
 
 
