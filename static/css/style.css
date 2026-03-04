@@ -1,7 +1,5 @@
 html, body{
     font-family: "Righteous", sans-serif;
-    padding: 0%;
-    margin: 0%;
 }
 
 body{
@@ -22,6 +20,7 @@ h1, h2, h3, h4, h5, h6, p{
     text-align: center;
     background-color: #031323;
     color: #f4f4f4;
+    margin: 0%;
 }
 
 .navbar{
